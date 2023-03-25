@@ -23,3 +23,7 @@ In a single-core, uniprocessor system that supports multiprogramming, the CPU ti
 System calls are needed because each process has it's own unique address space, and the kernel must be involved when dealing with the address space of other processes.
 When two or more processes need to communicate with each other using shared memory, they need to ask the operating system to provide a shared memory region that they can access. This is done using system calls. Threads share their address space by definition, so they don't need to make a system call to share memory.
 # Outline Of The Assignment
+why??how???
+#Instructions for compiling
+gcc shell-o shell.c
+./shell

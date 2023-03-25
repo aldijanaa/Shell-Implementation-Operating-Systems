@@ -1,5 +1,5 @@
 # Shell-Implementation-Operating-Systems
-GROUP MEMBERS
+# GROUP MEMBERS
 
 Aldijana Čulezović
 Ajla Korman

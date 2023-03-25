@@ -22,7 +22,7 @@ When two or more processes need to communicate with each other using shared memo
 why??how???
 # Instructions for compiling
 gcc shell-o shell.c <br/>
-gcc shell.c shell -lreadline
+gcc shell.c shell -lreadline <br/>
 ./shell
 # Challenges
 Difficulty to find needed material to create the code for the project. <br/>

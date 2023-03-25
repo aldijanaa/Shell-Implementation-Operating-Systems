@@ -7,5 +7,10 @@ Ajla Korman
 # Files
 shell.c
 
+# Task 1.1
+aldi@ubuntu
+ajla korman...
+
+
 
 

@@ -11,6 +11,7 @@ shell.c
 aldi@ubuntu  <br />
 ajla korman...
 
+# Task 1.2
 
 
 

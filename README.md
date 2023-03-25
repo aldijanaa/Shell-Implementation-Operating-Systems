@@ -1,7 +1,7 @@
 # Shell-Implementation-Operating-Systems
 # GROUP MEMBERS
 
-a_ _Aldijana Čulezović
+Aldijana Čulezović <br\>
 Ajla Korman
 
 # Files

@@ -27,3 +27,13 @@ why??how???
 # Instructions for compiling
 gcc shell-o shell.c <br/>
 ./shell
+# Challenges
+Difficulty to find needed material to create the code for the project. <br/>
+Lack of understandment in some aspects. <br/>
+# Resources
+https://www.geeksforgeeks.org/making-linux-shell-c/
+
+
+
+
+

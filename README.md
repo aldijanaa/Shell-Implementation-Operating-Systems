@@ -8,7 +8,7 @@ Ajla Korman
 shell.c
 
 # Task 1.1
-aldi@ubuntu
+aldi@ubuntu  <br />
 ajla korman...
 
 

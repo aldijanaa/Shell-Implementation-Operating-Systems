@@ -25,6 +25,7 @@ gcc shell-o shell.c <br/>
 gcc shell.c shell -lreadline <br/>
 ./shell
 # Challenges
+Hard to grasp and understand advanced aspects of C Programming Language. <br/>
 Difficulty to find needed material to create the code for the project. <br/>
 Lack of understandment in some aspects. <br/>
 # Resources

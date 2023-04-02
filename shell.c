@@ -28,8 +28,7 @@
 #define MIN_SPEED 50000 // in microseconds
 #define MAX_SPEED 150000 // in microseconds
 
-//intializating variable for infinite Loop later on
-//int infiniteLoop = 1; //do we need this?
+
 
 //declaration of the functions
 void takePrompt();

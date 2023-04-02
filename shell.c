@@ -81,7 +81,7 @@ void takePrompt(){
     char cwd[PATH_MAX];
 
     //Calling functions to set color to the shell
-    setColorBlue();
+    setColorBlueBold();
     printf("%s", hostname);
 
     setColorRed();
@@ -110,17 +110,13 @@ void initShell()
     system("clear"); //clean the terminal/console window 
 
     setColorBlue();
-    //printf("\n\n\n\n******************"
-           //"************************");
-    printf("\n\n\n\t****Welcome to BOSShell!****");
+    
+    printf("\n\n\n\t****Welcome to BO$shell!****");
     printf("\n\n\n\t****It is a Linux based shell created and implemented by****");
-    printf("\n\n\n\t****by two young female students Aldijana and Ajla.****");
+    printf("\n\n\n\t****two young female students Aldijana and Ajla.****");
     printf("\n\n\n\t****They aspire one day to have their own companies****");
-    printf("\n\n\n\t****And be their own BOSSes.****\n");
+    printf("\n\n\n\t****And be their own bosses.****\n");
    
-    //printf("\n\n\n\t****Shell WAS CREATED IN  C BY ALDIJANA AND AJLA****");
-    //printf("\n\n\n\n******************"
-      //     "************************\n");
     //char* username = getenv("USER");
     //printf("\n\n\nUSER is: @%s", username);
     printf("\n");
@@ -213,7 +209,59 @@ void tokensFunction(){
 //Task 1.2 --> Basic: wc()
 //Task 1.2. --> Also intermediate: because we implemented three functionalities of wc command -> number of lines, characters and words. 
 //wc() - counts word, lines and characters in the given string
-int  wc(){
+//This is example with wc() where it operates based on the user's input
+
+int wc() {
+    char inputTaken[1000];   //this array will hold input text
+    int i, count = 0, count2 = 0, count3 = 0;
+    
+    //Asking user for input
+    printf("Please enter some text: ");
+    fgets(inputTaken, sizeof(inputTaken), stdin);
+     
+     //Handiling errors, if input is null and if input is too long
+     if (fgets(inputTaken, sizeof(inputTaken), stdin) == NULL) {
+        printf("Error reading input\n");
+        return 1;
+    }
+    if (strlen(inputTaken) == sizeof(inputTaken)-1 && inputTaken[sizeof(inputTaken)-2] != '\n') {
+        printf("Input too long\n");
+        return 1;
+    }
+     
+    //First case: number of words
+    printf("The text on which these operations will be performed is:\n%s\n", inputTaken);
+
+    printf("The first option is to count the number of words in the given text.\n");
+    for (i = 0; inputTaken[i] != '\0'; i++) {
+        if (inputTaken[i] == ' ' && inputTaken[i+1] != ' ')
+            count++;
+    }
+    printf("Number of words in the given text is: %d\n", count + 1);
+    
+    //Second case: number of lines
+    printf("The second option is to count the number of lines in the given text.\n");
+    for (i = 0; inputTaken[i] != '\0'; i++) {
+        if (inputTaken[i] == '\n')
+            count3++;
+    }
+    printf("The number of lines in the given text is: %d\n", count3 + 1);
+    
+
+    //Third case: number of characters
+    printf("The third option is to count the number of characters in the given text.\n");
+    for (i = 0; inputTaken[i] != '\0'; i++) {
+        if (inputTaken[i] >= 'a' && inputTaken[i] <= 'z')
+            count2++;
+    }
+    printf("The number of characters in the given text is: %d\n", count2);
+
+    return 0;
+}
+
+
+/*ANOTHER EXAMPLE OF wc(), where wc operates on the text we passed to it*/
+/*int  wc(){
 
     //i - loop counter, count, count2, count3 - used to count nummber of words, characters and lines
     int i, count = 0, count2 = 0, count3 = 0;
@@ -258,7 +306,9 @@ int  wc(){
     }
     printf("The number of characters in the given string is: %d\n", count2);
     return 0;
-}
+} */
+
+
 
 //Task 1.2 --> Basic: grep
 //grep --> searches for a file containing particular pattern, and displays lines containing that pattern
@@ -293,7 +343,7 @@ int grep()  //works!
     fclose(fp);  //Closing the file
 }
 
-//Task 1.2 --> Basic: df - provjeriti zasto ne radi!
+//Task 1.2 --> Basic: df 
 //df -  display information about the file system disk space usage
 
 int df() {

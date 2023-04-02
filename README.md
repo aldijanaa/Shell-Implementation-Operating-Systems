@@ -32,7 +32,7 @@ https://www.geeksforgeeks.org/making-linux-shell-c/
 https://github.com/TunsAdrian/Linux-Terminal/blob/master/Source%20code/shell.c
 https://blog.ehoneahobed.com/building-a-simple-shell-in-c-part-1
 https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/
-https://linux.die.net/man/
+https://linux.die.net/man/  
 https://www.geeksforgeeks.org/exec-family-of-functions-in-c/
 https://www.tecmint.com/wc-command-examples/#:~:text=The%20followings%20are%20the%20options,of%20bytes%20in%20a%20file.
 https://codesteps.com/2014/05/19/c-programming-creating-a-child-process-using-clone/

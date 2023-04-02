@@ -441,7 +441,7 @@ int owl(){
     setColorGreen();
     printf("   ""  \n");
     
-    for (int i = 0; i < 120; i++){
+    for (int i = 0; i < 200; i++){
         system("sleep 0.01"); // movement of the owl
         system("clear");
         owl(i); // the owl moves 120 spaces
@@ -575,9 +575,6 @@ int main() {
     tokensFunction();
 
     return 0;
-
-
-
 
 
 }

@@ -569,7 +569,7 @@ int main() {
 
     
     system("clear");
-    printf("\033]0;Aldijana and Ajla\007"); 
+    printf("Aldijana and Ajla"); 
 
 
     tokensFunction();

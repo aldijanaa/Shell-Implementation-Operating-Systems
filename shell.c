@@ -609,7 +609,7 @@ int main() {
     system("clear");
     
     //Changing name of the terminal window, where  033]0 --> start  and \007 --> end
-    printf("\033]0;Aldijana and Ajla\007"); 
+    printf("\033]0;Aldijana and Ajla's Shell\007"); 
      
 
 

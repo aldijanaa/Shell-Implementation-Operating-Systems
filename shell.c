@@ -33,11 +33,11 @@
 void takePrompt();
 void initShell();
 void tokensFunction();
-void wc();
+int wc();
 int grep();
 int df();
 int cmatrix();
-void cat ();
+int cat ();
 void redirectOutputToFile();
 
 //declaration of color functions
@@ -213,7 +213,7 @@ void tokensFunction(){
 //This is example with wc() where it operates based on the user's input
 
 //real wc
-void wc(){
+int wc(){
    
     int i, count = 0, count2 = 0, count3 = 0;
     char l;
@@ -256,6 +256,7 @@ void wc(){
     else {
         printf("Invalid option.\n");
     }
+    return 0;
 }
 
 
@@ -432,7 +433,7 @@ int cmatrix() {
 
 //Task 1.2.2. Intermediate b) - Create something that does not exist in the bash
 //We created a custom cat figure in different colors that moves
-void cat() {
+int cat() {
     for (int i = 0; i < 120; i++) {
         usleep(50000); // wait for 50 milliseconds
         system("clear"); // clear the screen
@@ -477,6 +478,7 @@ void cat() {
        // setColorRedBold();
         printf("  MEET OUR CAT CICKO\n");
     }
+    return 0;
 }
 
 //owl druga verzija

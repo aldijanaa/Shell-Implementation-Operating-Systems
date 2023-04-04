@@ -565,7 +565,7 @@ int main() {
     initShell();
 
     //calling function to change background and foreground color
-    setBlackAndBrightWhite(); //?
+    //setBlackAndBrightWhite(); //?
 
     
     system("clear");

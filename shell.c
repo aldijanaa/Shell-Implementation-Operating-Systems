@@ -1,4 +1,4 @@
-//SHELL IMPLEMENTATION BY ALDIJANA AND AJLA (original)
+//SHELL IMPLEMENTATION BY ALDIJANA AND AJLA (original pravi)
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  //-> for system calls
@@ -15,6 +15,7 @@
 #include <sys/statvfs.h> 
 #include <errno.h>  
 #include <time.h>
+#include <ctype.h>
 
 //Defining length of command and number of arguments
 #define MAX_COMMAND_LENGTH 100
@@ -32,11 +33,11 @@
 void takePrompt();
 void initShell();
 void tokensFunction();
-int wc();
+void wc();
 int grep();
 int df();
 int cmatrix();
-int owl();
+void cat ();
 void redirectOutputToFile();
 
 //declaration of color functions
@@ -53,7 +54,9 @@ void setColorBrightGreen();
 void setColorCyan();
 void setColorBrightCyan();
 void setColorBrightMagenta();
+void newColor();
 
+//declaration of background functions
 void setCyanAndBrightGreen();
 void setBlackAndBrightWhite();
 void setWhiteAndRed();
@@ -107,12 +110,13 @@ void initShell()
     system("clear"); //clean the terminal/console window 
 
     setColorBlue();
-    
+    printf("\n\t================================================\n");
     printf("\n\n\n\t****Welcome to BO$shell!****");
     printf("\n\n\n\t****It is a Linux based shell created and implemented by****");
     printf("\n\n\n\t****two young female students Aldijana and Ajla.****");
     printf("\n\n\n\t****They aspire one day to have their own companies****");
     printf("\n\n\n\t****And be their own bosses.****\n");
+    printf("\n\t================================================\n");
    
     //char* username = getenv("USER");
     //printf("\n\n\nUSER is: @%s", username);
@@ -192,9 +196,9 @@ void tokensFunction(){
         printf("Error executing cmatrix.\n");
       }
 
-    } else if (strcmp(arguments[0], "owl") == 0) {
-        if(owl() != 0){
-            printf("Error executing owl. \n");
+    } else if (strcmp(arguments[0], "cat") == 0) {
+        if(cat() != 0){
+            printf("Error executing cat. \n");
         }
       system("clear"); //clearing the console screen
     }else {   //if command entered is not part of shell
@@ -208,57 +212,55 @@ void tokensFunction(){
 //wc() - counts word, lines and characters in the given string
 //This is example with wc() where it operates based on the user's input
 
-int wc() {
-    char inputTaken[1000];   //this array will hold input text
+//real wc
+void wc(){
+   
     int i, count = 0, count2 = 0, count3 = 0;
-    
-    //Asking user for input
-    printf("Please enter some text: ");
-    fgets(inputTaken, sizeof(inputTaken), stdin);
-     
-     //Handiling errors, if input is null and if input is too long
-     if (fgets(inputTaken, sizeof(inputTaken), stdin) == NULL) {
-        printf("Error reading input\n");
-        return 1;
+    char l;
+    char s[12256];
+   
+    printf("Function wc(word count) can perform options such as number of words (-W), lines (-l), and characters (-m).\n");
+    printf("Enter the text on which these operations will be performed:\n");
+    fgets(s, 12256, stdin);
+    printf("\n");
+    printf("To perform an option, please choose one letter:\nW - word count\nL - line count\nM - character count\n");
+    printf("Pay attention to capital and lower case letter usage.\n");
+    printf("Enter the option letter:\n");
+    scanf(" %c", &l);
+   
+   if(l == 'w' || l == 'W'){
+        for (i = 0; s[i] != '\0'; i++) {
+            if (s[i] == ' ' && s[i+1] != ' ') {
+                count++;    
+            }
+        }
+        printf("Number of words in the given text is: %d\n", count + 1);
     }
-    if (strlen(inputTaken) == sizeof(inputTaken)-1 && inputTaken[sizeof(inputTaken)-2] != '\n') {
-        printf("Input too long\n");
-        return 1;
-    }
-     
-    //First case: number of words
-    printf("The text on which these operations will be performed is:\n%s\n", inputTaken);
 
-    printf("The first option is to count the number of words in the given text.\n");
-    for (i = 0; inputTaken[i] != '\0'; i++) {
-        if (inputTaken[i] == ' ' && inputTaken[i+1] != ' ')
-            count++;
+    else if(l == 'l' || l == 'L') {
+        for(i = 0; s[i] != '\0'; i++) {
+            if(s[i] == '\n') {
+                count3++;
+            }
+        }
+        printf("The number of lines in the given text is: %d\n", count3 + 1);
     }
-    printf("Number of words in the given text is: %d\n", count + 1);
-    
-    //Second case: number of lines
-    printf("The second option is to count the number of lines in the given text.\n");
-    for (i = 0; inputTaken[i] != '\0'; i++) {
-        if (inputTaken[i] == '\n')
-            count3++;
+    else if(l == 'm' || l == 'M') {
+        for (i = 0; s[i] != '\0'; i++) {
+            if(s[i] >= 'a' && s[i] <= 'z') {
+                count2++;
+            }
+        }
+        printf("The number of characters in the given text is: %d\n", count2);
     }
-    printf("The number of lines in the given text is: %d\n", count3 + 1);
-    
-
-    //Third case: number of characters
-    printf("The third option is to count the number of characters in the given text.\n");
-    for (i = 0; inputTaken[i] != '\0'; i++) {
-        if (inputTaken[i] >= 'a' && inputTaken[i] <= 'z')
-            count2++;
+    else {
+        printf("Invalid option.\n");
     }
-    printf("The number of characters in the given text is: %d\n", count2);
-
-    return 0;
 }
 
 
 /*ANOTHER EXAMPLE OF wc(), where wc operates on the text we passed to it*/
-/*int  wc(){
+/*void wc(){
 
     //i - loop counter, count, count2, count3 - used to count nummber of words, characters and lines
     int i, count = 0, count2 = 0, count3 = 0;
@@ -302,7 +304,7 @@ int wc() {
         }
     }
     printf("The number of characters in the given string is: %d\n", count2);
-    return 0;
+    
 } */
 
 
@@ -429,28 +431,53 @@ int cmatrix() {
 }
 
 //Task 1.2.2. Intermediate b) - Create something that does not exist in the bash
-//We created a custom owl figure in different colors that moves
-int owl(){
-
-    setColorBrightCyan();
-    printf(" '___'\n");
-    setColorRedBold();
-    printf(" (O,O)\n");
-    setColorYellowBold();
-    printf("  /)_)\n");
-    setColorGreen();
-    printf("   ""  \n");
-    
-    for (int i = 0; i < 200; i++){
-        system("sleep 0.01"); // movement of the owl
-        system("clear");
-        owl(i); // the owl moves 120 spaces
+//We created a custom cat figure in different colors that moves
+void cat() {
+    for (int i = 0; i < 120; i++) {
+        usleep(50000); // wait for 50 milliseconds
+        system("clear"); // clear the screen
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
         }
-
-    //to reset the colors after command execution
-    resetColor();
-    return 0;
-} 
+       // setColorBlue();
+        printf("         /\\_/\\    \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+       // setColorYellow();
+        printf("        ( o  o )  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        //setColorGreen();
+        printf("       /  =^=  \\ \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+       // setColorBrightMagenta();
+        printf("      /   ---   \\\n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+       // setColorBrightCyan();
+        printf("     (    \\/    ) \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        //setColorBrightGreen();
+        printf("      \\_______/  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+       // setColorBlue();
+        printf("       ||    || \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+       // setColorRedBold();
+        printf("  MEET OUR CAT CICKO\n");
+    }
+}
 
 //owl druga verzija
 /*int owl(){
@@ -526,6 +553,15 @@ void setColorBrightGreen(){
     printf("\033[0;92m");
 }
 
+//Another way to set color of text
+/*void newColor() {
+    printf("\x1B[44m"); // Set background color of the text to blue
+    printf("Hello, from Aldijana and Ajla!\n");
+    printf("\x1B[0m"); // Reset to default color
+    return 0;
+}*/
+
+
 void setColorCyan(){
     printf("\033[0;36m");
 }
@@ -537,7 +573,7 @@ void setColorBrightMagenta(){
 }
 
 //Now, we have functions to set the background and foreground color at the same time
-void setCyanAndBrightGreen(){
+/*void setCyanAndBrightGreen(){
     printf("\033[46m\033[92m");
 }
 void setBlackAndBrightWhite(){
@@ -551,7 +587,7 @@ void setMagentaAndBrightCyan(){
 }
 void setWhiteAndBlack(){
     printf("\033[47m\033[30m");
-}
+}*/
 
 //Reset to the default colors of the shell
 void resetColor() {
@@ -569,7 +605,10 @@ int main() {
 
     
     system("clear");
-    printf("033]0Aldijana and Ajla/007"); 
+    
+    //Changing name of the terminal window, where  033]0 --> start  and \007 --> end
+    printf("\033]0;Aldijana and Ajla\007"); 
+     
 
 
     tokensFunction();

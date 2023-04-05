@@ -1,70 +1,132 @@
-//SHELL IMPLEMENTATION BY ALDIJANA AND AJLA (original pravi)
+///opet novi shell estagfirulahh  -- 300 ajlin original
+
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>  //-> for system calls
-#include <limits.h>
+#include <unistd.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <linux/kernel.h>
-#include <sys/sysinfo.h>
-#include <libgen.h>
-#include <signal.h>
 #include <sys/wait.h>
-#include <sys/statvfs.h> 
-#include <errno.h>  
+#include <sys/statvfs.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <fcntl.h>
 #include <time.h>
-#include <ctype.h>
+#include <errno.h>
 
-//Defining length of command and number of arguments
 #define MAX_COMMAND_LENGTH 100
 #define MAX_NUM_ARGUMENTS 10
-#define true 1
 
-//constants needed for cmatrix (digital rain)
-#define MAX_COLS 80
-#define MAX_ROWS 25
-#define MAX_LENGTH 10
-#define MIN_SPEED 50000 // in microseconds
-#define MAX_SPEED 150000 // in microseconds
-
-//declaration of the functions
+//declaration of functions
 void takePrompt();
-void initShell();
-void tokensFunction();
-int wc();
-int grep();
-int df();
-int cmatrix();
-int cat ();
-void redirectOutputToFile();
-
-//declaration of color functions
 void setColorYellow();
-void setColorYellowBold();
-void setColorBrightYellowBold();
 void setColorRed();
-void setColorRedBold();
 void setColorBlue();
-void setColorBlueBold();
 void setColorGreen();
-void setColorGreenBold();
-void setColorBrightGreen();
 void setColorCyan();
 void setColorBrightCyan();
 void setColorBrightMagenta();
-void newColor();
-
-//declaration of background functions
-void setCyanAndBrightGreen();
-void setBlackAndBrightWhite();
-void setWhiteAndRed();
-void setMagentaAndBrightCyan();
-void setWhiteAndBlack();
 void resetColor();
+//void newColor();
+
+void print_random_quote();
+void my_cat();
+void table_of_content();
 
 
+void my_cat() {
+  for (int i = 0; i < 120; i++) {
+        usleep(50000); // wait for 50 milliseconds
+        system("clear"); // clear the screen
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBlue();
+        printf("         /\\_/\\    \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorYellow();
+        printf("        ( o  o )  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorGreen();
+        printf("       /  =^=  \\ \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBrightMagenta();
+        printf("      /   ---   \\\n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBrightCyan();
+        printf("     (    \\/    ) \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorGreen();
+        printf("      \\_______/  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBlue();
+        printf("       ||    || \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorRed();
+        printf("  MEET OUR CAT CICKO\n");
+  }
+  
+  printf("Meow! Here's your custom cat function.\n");
+}
+
+
+void table_of_content() {
+  printf("Table of contents:\n");
+  printf("1. WC - \n");
+  printf("2. DF- Describe free disk space\n");
+  printf("3. Cmatrix- Digital Rain\n");
+  printf("4. Grep - \n");
+
+}
+
+//Task 1.4 Adding color to the shell and text.
+//For changing the text color/style of text we used ANSI escape sequence.
+void setColorYellow() {
+    printf("\033[0;33m");
+}
+void setColorRed() {
+    printf("\033[0;31m");
+}
+void setColorBlue() {
+    printf("\033[0;34m");
+}
+void setColorGreen() {
+    printf("\033[0;32m");
+}
+void setColorCyan(){
+    printf("\033[0;36m");
+}
+void setColorBrightCyan(){
+    printf("\033[0;96m");
+}
+void setColorBrightMagenta(){
+    printf("\033[0;95m");
+}
+//Reset to the default colors of the shell
+void resetColor() {
+    printf("\033[0m");
+}
+
+//Another way to set color of text
+/*void newColor() {
+    printf("\x1B[44m"); // Set background color of the text to blue
+    printf("Hello, from Aldijana and Ajla!\n");
+    printf("\x1B[0m"); // Reset to default color
+
+}*/
 
 //Task 1.1 Advanced: Displays user prompt
 void takePrompt(){
@@ -81,7 +143,7 @@ void takePrompt(){
     char cwd[PATH_MAX];
 
     //Calling functions to set color to the shell
-    setColorBlueBold();
+    setColorBlue();
     printf("%s", hostname);
 
     setColorRed();
@@ -97,527 +159,162 @@ void takePrompt(){
 
     //Task 1.1 Basic user prompt
     //printf("prompt:~$ ");
-    //This part is commented, because you can't at the same time use two prompts. 
+    //This part is commented, because you can't at the same time use two prompts.
     //We have decided to use the advanced prompt through out the shell.
     //If you want to use the basic prompt, then you should uncomment this part, and comment advanced prompt part
 }
 
 
 
-//Display of the shell
-void initShell()
-{
-    system("clear"); //clean the terminal/console window 
+int main() {
+  char *command[MAX_COMMAND_LENGTH];
+  char *arguments[MAX_NUM_ARGUMENTS];
+  char input[MAX_COMMAND_LENGTH];
+  int status;
 
-    setColorBlue();
-    printf("\n\t================================================\n");
-    printf("\n\n\n\t****Welcome to BO$shell!****");
-    printf("\n\n\n\t****It is a Linux based shell created and implemented by****");
-    printf("\n\n\n\t****two young female students Aldijana and Ajla.****");
-    printf("\n\n\n\t****They aspire one day to have their own companies****");
-    printf("\n\n\n\t****And be their own bosses.****\n");
-    printf("\n\t================================================\n");
-   
-    //char* username = getenv("USER");
-    //printf("\n\n\nUSER is: @%s", username);
-    printf("\n");
+  //Changing name of the terminal window, where  033]0 --> start  and \007 --> end
+  printf("\033]0;Aldijana and Ajla's shell\007");
 
-    //pause the execution of the program for 5 seconds before resuming
-    sleep(5); 
-    system("clear");
-}
+  while (1) {
+    takePrompt();
+    fgets(input, MAX_COMMAND_LENGTH, stdin);
+    input[strlen(input) - 1] = '\0';  // Remove newline character
 
+    // Tokenize the command string by spaces
+    char *token = strtok(input, " ");
+    int i = 0;
+    char *out_file = NULL;
+    int pipefd[2];
 
-
-//Tokens function: handles user input and commands and functions related to it
-void tokensFunction(){
-    char *command[MAX_COMMAND_LENGTH]; //command length (not used)
-    char *arguments[MAX_NUM_ARGUMENTS];  //max number of  arguments command can have (each token is stored in arguments)
-    char input[MAX_COMMAND_LENGTH]; //input from user
-    //int status;  //not used tho
-
-  //infinite loop to take user prompt
-    while (1) {
-        takePrompt();
-        fgets(input, MAX_COMMAND_LENGTH, stdin);  
-        input[strlen(input) - 1] = '\0';  // Remove newline character
-
-        //user can exit command
-        if (strcmp(input, "exit") == 0) {
-            printf("Goodbye!\n");
-            break;
-        }
-
-    //first call to strok() --> returns pointer to first token in "input"
-
-    //Tokenize (split) the "input" string by spaces with strtok() 
-    char *token = strtok(input, " ");   //strtok() -> extracting tokens from "input", limit is " " (space)
-    int i = 0;  
-    
-    //while token is not null and is less than max number of arguments
     while (token != NULL && i < MAX_NUM_ARGUMENTS) {
-      arguments[i] = token;  //store each token in arguments variable/array
-      token = strtok(NULL, " ");  //next calls  with null as first argument, will continue to return pointer to next token in input string, until no more tokens found
-      i++;
-    }
-
-    //Handling possible errors 
-    //if command extends the limited amout of arguments
-    if (i == MAX_NUM_ARGUMENTS) {
-      printf("Too many arguments. Maximum number of arguments is %d.\n", MAX_NUM_ARGUMENTS);
-      printf("Please enter a new command: \n"); //asks user for input again 
-      continue; // Skip the rest of the loop and start over
-    }
-
-    // Handle empty input, if user entered 0 
-    if (i == 0) {
-      printf("Command is empty, please enter again: \n");
-      continue; // Skip the rest of the loop and start over
-    }
-
-    // Check for built-in commands and execute them, handling errors as well
-    if (strcmp(arguments[0], "wc") == 0) {
-      if (wc() != 0) {
-        printf("Error executing wc.\n");  //wc
-      }
-
-    } else if (strcmp(arguments[0], "grep") == 0) {  //grep
-      if (grep() != 0) {
-        printf("Error executing grep.\n");
-      }
-
-    } else if (strcmp(arguments[0], "df") == 0) {  //df
-      if (df() != 0) {
-        printf("Error executing df.\n");
-      }
-
-    } else if (strcmp(arguments[0], "cmatrix") == 0) { //cmatrix
-      if (cmatrix() != 0) {
-        printf("Error executing cmatrix.\n");
-      }
-
-    } else if (strcmp(arguments[0], "cat") == 0) {
-        if(cat() != 0){
-            printf("Error executing cat. \n");
+      if (strcmp(token, ">") == 0) {
+        token = strtok(NULL, " ");
+        if (token != NULL) {
+          out_file = token;
+          token = strtok(NULL, " ");
+          continue;
         }
-      system("clear"); //clearing the console screen
-    }else {   //if command entered is not part of shell
-      printf("%s: Command not found.\n", arguments[0]);
+        else {
+          printf("Output file name missing.\n");
+          break;
+        }
+      }
+else if (strcmp(token, "|") == 0) {
+    token = strtok(NULL, " ");
+    pipe(pipefd);
+    pid_t pid = fork();
+    if (pid == 0) {  // Child process
+      dup2(pipefd[1], STDOUT_FILENO);
+      close(pipefd[0]);
+      close(pipefd[1]);
+      execvp(command[0], command);
+      perror("execvp");  // This line only executes if execvp fails
+      exit(1);
+    } else if (pid > 0) {  // Parent process
+      dup2(pipefd[0], STDIN_FILENO);
+      close(pipefd[0]);
+      close(pipefd[1]);
+      command[0] = token;
+      continue;
+    } else {  // Error forking
+      perror("fork");
+      exit(1);
     }
   }
+
+      arguments[i] = token;
+      token = strtok(NULL, " ");
+      i++;
+    }
+    arguments[i] = NULL;  // Set the last argument to NULL for execvp
+
+    // Check for the "exit" command
+    if (strcmp(arguments[0], "exit") == 0) {
+printf("You exited the shell! Goodbye.");
+      break;
+    }
+
+    // Check for the "man" command
+    if (strcmp(arguments[0], "man") == 0) {
+      // Open the manual page for the specified command
+      char manual_page[100];
+      sprintf(manual_page, "man %s", arguments[1]);
+      system(manual_page);
+      continue;  // Prompt the user for input again
+    }
+
+    // Check for supported commands and execute them
+    if (strcmp(arguments[0], "cat") == 0) {
+      my_cat();
+    } else if (strcmp(arguments[0], "content") == 0) {
+      table_of_content();
+    }  else if (strcmp(arguments[0], "quote") == 0) {
+      print_random_quote();
+} else {
+      pid_t pid = fork();
+      if (pid == 0) {  // Child process
+        if (out_file != NULL) {
+          int fd = open(out_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+          if (fd == -1) {
+            perror("open");
+            exit(1);
+          }
+          if (dup2(fd, STDOUT_FILENO) == -1) {
+            perror("dup2");
+            exit(1);
+          }
+          if (close(fd) == -1) {
+            perror("close");
+            exit(1);
+          }
+        }
+        execvp(arguments[0], arguments);
+        perror("execvp");  // This line only executes if execvp fails
+        exit(1);
+      } else if (pid > 0) {  // Parent process
+        waitpid(pid, &status, 0);
+      } else {  // Error forking
+        perror("fork");
+        exit(1);
+      }
+    }
+  }
+
+  return 0;
 }
 
-//Task 1.2 --> Basic: wc()
-//Task 1.2. --> Also intermediate: because we implemented three functionalities of wc command -> number of lines, characters and words. 
-//wc() - counts word, lines and characters in the given string
-//This is example with wc() where it operates based on the user's input
+void print_random_quote() {
+    // List of quotes
+    char *quotes[] = {
+        "The greatest glory in living lies not in never falling, but in rising every time we fall. -Nelson Mandela",
+        "The way to get started is to quit talking and begin doing. -Walt Disney",
+        "Your time is limited, don't waste it living someone else's life. -Steve Jobs",
+        "If life were predictable it would cease to be life, and be without flavor. -Eleanor Roosevelt",
+        "If you look at what you have in life, you'll always have more. If you look at what you don't have in life, you'll never have enough. -Oprah Winfrey",
+        "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success. -James Cameron",
+        "Life is what happens when you're busy making other plans. -John Lennon",
+        "Spread love everywhere you go. Let no one ever come to you without leaving happier. -Mother Teresa"
+    };
 
-//real wc
-int wc(){
-   
-    int i, count = 0, count2 = 0, count3 = 0;
-    char l;
-    char s[12256];
-   
-    printf("Function wc(word count) can perform options such as number of words (-W), lines (-l), and characters (-m).\n");
-    printf("Enter the text on which these operations will be performed:\n");
-    fgets(s, 12256, stdin);
-    printf("\n");
-    printf("To perform an option, please choose one letter:\nW - word count\nL - line count\nM - character count\n");
-    printf("Pay attention to capital and lower case letter usage.\n");
-    printf("Enter the option letter:\n");
-    scanf(" %c", &l);
-   
-   if(l == 'w' || l == 'W'){
-        for (i = 0; s[i] != '\0'; i++) {
-            if (s[i] == ' ' && s[i+1] != ' ') {
-                count++;    
-            }
-        }
-        printf("Number of words in the given text is: %d\n", count + 1);
-    }
+    // List of colors
+    char *colors[] = {
+        "\033[1;31m",  // Red
+        "\033[1;32m",  // Green
+        "\033[1;33m",  // Yellow
+        "\033[1;34m",  // Blue
+        "\033[1;35m",  // Magenta
+        "\033[1;36m"   // Cyan
+    };
 
-    else if(l == 'l' || l == 'L') {
-        for(i = 0; s[i] != '\0'; i++) {
-            if(s[i] == '\n') {
-                count3++;
-            }
-        }
-        printf("The number of lines in the given text is: %d\n", count3 + 1);
-    }
-    else if(l == 'm' || l == 'M') {
-        for (i = 0; s[i] != '\0'; i++) {
-            if(s[i] >= 'a' && s[i] <= 'z') {
-                count2++;
-            }
-        }
-        printf("The number of characters in the given text is: %d\n", count2);
-    }
-    else {
-        printf("Invalid option.\n");
-    }
-    return 0;
-}
+    // Get the number of quotes and colors
+    int num_quotes = sizeof(quotes) / sizeof(quotes[0]);
+    int num_colors = sizeof(colors) / sizeof(colors[0]);
 
-
-/*ANOTHER EXAMPLE OF wc(), where wc operates on the text we passed to it*/
-/*void wc(){
-
-    //i - loop counter, count, count2, count3 - used to count nummber of words, characters and lines
-    int i, count = 0, count2 = 0, count3 = 0;
-    char l[200];
-
-    //text that will be used for performing operations
-    //printf("Function wc(word count) can perform options such as number of words (-W), lines (-l), and characters (-m).\n");
-    printf("The text on which these operations will be performed is:\n");
-    printf("\n");
-    printf("Introduction to Operating Systems is a graduate-level introductory course in operating systems.\nThis course teaches the basic operating system abstractions, mechanisms, and their implementations.\nThe core of the course contains concurrent programming (threads and synchronization), inter process communication, and an introduction to distributed operating systems.\nThe course is split into four sections: (1) Introduction, (2) Process and Thread Management, (3) Resource Management and Communication, and (4) Distributed Systems.\n");
-
-    char s[12256] = "Introduction to Operating Systems is a graduate-level introductory course in operating systems.\nThis course teaches the basic operating system abstractions, mechanisms, and their implementations.\nThe core of the course contains concurrent programming (threads and synchronization), inter process communication, and an introduction to distributed operating systems.\nThe course is split into four sections: (1) Introduction, (2) Process and Thread Management, (3) Resource Management and Communication, and (4) Distributed Systems.";
-    printf("\n");
-
-
-    printf("The first option is to count the number of words in the given text.\n");
-
-    //counting number of words in text
-    for (i = 0; s[i] != '\0'; i++) {
-        if (s[i] == ' ' && s[i+1] != ' ')
-            count++;
-    }
-    printf("Number of words in the given string is: %d\n", count + 1);
-
-    printf("The second option is to count the number of lines in the given text.\n");
-
-    //counting number of lines in text
-    for(i = 0; s[i] != '\0'; i++) {
-        if(s[i] == '\n') {
-            count3++;
-        }
-    }
-    printf("The number of lines in the given string is: %d\n", count3 + 1);
-
-    printf("The third option is to count the number of characters in the given text.\n");
-
-    //counting number of characters in text
-    for (i = 0; s[i] != '\0'; i++) {
-        if(s[i] >= 'a' && s[i] <= 'z') {
-            count2++;
-        }
-    }
-    printf("The number of characters in the given string is: %d\n", count2);
-    
-} */
-
-
-
-//Task 1.2 --> Basic: grep
-//grep --> searches for a file containing particular pattern, and displays lines containing that pattern
-//grep doesn't return any value, therefore it's type is void
-int grep()  //works!
-{
-    //file name, pattern and number of characters that can be read
-    char fileName[10],pattern[10],temp[200];
-
-    //pointer for file that is opened for reading
-    FILE *fp;
-
-    //User prompt
-    printf("Enter file name\n");
-    scanf("%s", fileName);
-    printf("Enter pattern to be searched\n");
-    scanf("%s", pattern);
-
-    //opens the file specified by user
-    fp=fopen(fileName, "r");  // "r" - file should be opened in reading mode
-
-    //loop to read each line of file
-    while(!feof(fp))
-    {
-        //stores line in temp, max numb of characters is 1000, and file pointer to open the file
-        fgets(temp,100,fp);
-
-        //does the pattern appear in line, if yes print it
-        if(strstr(temp, pattern)) //temp - max number of characters
-            printf("%s",temp);
-    }
-    fclose(fp);  //Closing the file
-}
-
-//Task 1.2 --> Basic: df 
-//df -  display information about the file system disk space usage
-
-int df() {
-    struct statvfs vfs;
-    if (statvfs("/", &vfs) == -1) {
-        perror("Error getting file system status");
-        exit(EXIT_FAILURE);
-    }
-
-    unsigned long total_space = vfs.f_frsize * vfs.f_blocks;
-    unsigned long free_space = vfs.f_frsize * vfs.f_bfree;
-    unsigned long used_space = total_space - free_space;
-    double used_percent = (double) used_space / total_space * 100;
-
-    printf("File system disk space usage:\n");
-    printf("Total space: %lu bytes\n", total_space);
-    printf("Used space: %lu bytes\n", used_space);
-    printf("Free space: %lu bytes\n", free_space);
-    printf("Used space percentage: %.2f%%\n", used_percent);
-
-    return 0;
-} 
-
-//Task 1.2.1. --> Basic: cmatrix 
-//Task 1.2.2. --> Also intermediate: We added foreground and background color, and used different random characters, and not only letters
-int cmatrix() {
-    int i, j, k, col, length, speed;
-    char matrix[MAX_ROWS][MAX_COLS];
-    char letter;
-   
+    // Generate a random index for the quote and color
     srand(time(NULL));
-   
-    for (i = 0; i < MAX_ROWS; i++) {
-        for (j = 0; j < MAX_COLS; j++) {
-            matrix[i][j] = ' ';
-        }
-    }
-   
-    while (1) {
-        // Randomly select a column, letter, length, and speed for the falling character
-        col = rand() % MAX_COLS;
-        length = rand() % MAX_LENGTH + 1;
-        speed = rand() % (MAX_SPEED - MIN_SPEED) + MIN_SPEED;
-       
-        // "Drop" the characters by setting the appropriate matrix elements
-        for (k = 0; k < length; k++) {
-            if (k + i < MAX_ROWS) {
-                letter = (char)((rand() % 26) + 'a');
-                matrix[k + i][col] = letter;
-            }
-        }
-       
-        // Print the matrix to the screen, with green text on black background
-        system("clear");           
-        printf("\033[40m\033[32m");  // set background to black and foreground to green
-        for (i = 0; i < MAX_ROWS; i++) {
-            for (j = 0; j < MAX_COLS; j++) {
-                letter = matrix[i][j];
-                if (letter != ' ') {
-                    printf("\033[32m%c", letter); // set foreground to green before printing each character
-                } else {
-                    printf("\033[30m%c", letter); // set foreground to black for empty spaces
-                }
-            }
-            printf("\n");
-        }
+    int quote_index = rand() % num_quotes;
+    int color_index = rand() % num_colors;
 
-        printf("\033[0m"); // reset color
-       
-        // Shift the matrix down by a random number of rows
-        int shift = rand() % 3 + 1;
-        for (i = MAX_ROWS - 1; i > shift; i--) {
-            for (j = 0; j < MAX_COLS; j++) {
-                matrix[i][j] = matrix[i - shift][j];
-            }
-        }
-        for (j = 0; j < MAX_COLS; j++) {
-            matrix[shift][j] = ' ';
-        }
-       
-        // Pause shortly before starting the next iteration
-        usleep(speed);
-    }
-   //dodati opciju da izadje
-    return 0;
+    // Print the quote in the chosen color
+    printf("%s%s\033[0m\n", colors[color_index], quotes[quote_index]);
 }
-
-//Task 1.2.2. Intermediate b) - Create something that does not exist in the bash
-//We created a custom cat figure in different colors that moves
-int cat() {
-    for (int i = 0; i < 120; i++) {
-        usleep(50000); // wait for 50 milliseconds
-        system("clear"); // clear the screen
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorBlue();
-        printf("         /\\_/\\    \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorYellow();
-        printf("        ( o  o )  \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        //setColorGreen();
-        printf("       /  =^=  \\ \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorBrightMagenta();
-        printf("      /   ---   \\\n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorBrightCyan();
-        printf("     (    \\/    ) \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        //setColorBrightGreen();
-        printf("      \\_______/  \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorBlue();
-        printf("       ||    || \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-       // setColorRedBold();
-        printf("  MEET OUR CAT CICKO\n");
-    }
-    return 0;
-}
-
-//owl druga verzija
-/*int owl(){
-    setColorBrightCyan();
-    printf(" '___'\n");
-    setColorRedBold();
-    printf(" (O,O)\n");
-    setColorYellowBold();
-    printf("  /)_)\n");
-    setColorGreen();
-    printf("   ""  \n");
-
-
-    //to reset the colors after command execution
-    resetColor();
-    return 0;
-} */
-
-
-
-//Task 1.2 Advanced - Redirect output to a text file
-//To compile use: gcc output.c -o output  and then ./output
-void redirectOutputToFile(); //declaration
-void redirectOutputToFile() { //implementation
-    FILE *fp; //file pointer - used for accessing the file
-
-    //opens file output.txt for writing
-    fp = fopen("output.txt", "w");  // "w" - write mode
-
-    //if file can't be open
-    if (fp == NULL) {
-        printf("Error opening the file.\n");
-        return;
-    }else{  //file opens, function writes this string to the file
-        fprintf(fp, "This is the output to a file.\n Goodbye wishes you Aldijana and Ajla");
-        fclose(fp);  //closing the file
-    }
-
-}
-
-//Task 1.4 Adding color to the shell and text.
-//For changing the text color/style of text we used ANSI escape sequence.
-//We created functions for different combinations of colors, created of normal density or higher and normal shade or lighter.
-
-void setColorYellow() {
-    printf("\033[0;33m");
-}
-void setColorYellowBold() {
-    printf("\033[1;33m");
-}
-void setColorBrightYellowBold() {
-    printf("\033[1;93m");
-}
-void setColorRed() {
-    printf("\033[0;31m");
-}
-void setColorRedBold() {
-    printf("\033[1;31m");
-}
-void setColorBlue() {
-    printf("\033[0;34m");
-}
-void setColorBlueBold() {
-    printf("\033[1;34m");
-}
-void setColorGreen() {
-    printf("\033[0;32m");
-}
-void setColorGreenBold() {
-    printf("\033[1;32m");
-}
-void setColorBrightGreen(){
-    printf("\033[0;92m");
-}
-
-//Another way to set color of text
-/*void newColor() {
-    printf("\x1B[44m"); // Set background color of the text to blue
-    printf("Hello, from Aldijana and Ajla!\n");
-    printf("\x1B[0m"); // Reset to default color
-    return 0;
-}*/
-
-
-void setColorCyan(){
-    printf("\033[0;36m");
-}
-void setColorBrightCyan(){
-    printf("\033[0;96m");
-}
-void setColorBrightMagenta(){
-    printf("\033[0;95m");
-}
-
-//Now, we have functions to set the background and foreground color at the same time
-/*void setCyanAndBrightGreen(){
-    printf("\033[46m\033[92m");
-}
-void setBlackAndBrightWhite(){
-    printf("\033[40m\033[97m");
-}
-void setWhiteAndRed(){
-    printf("\033[47m\033[91m");
-}
-void setMagentaAndBrightCyan(){
-    printf("\033[35m\033[96m");
-}
-void setWhiteAndBlack(){
-    printf("\033[47m\033[30m");
-}*/
-
-//Reset to the default colors of the shell
-void resetColor() {
-    printf("\033[0m");
-}
-
-
-
-int main() {
-
-    initShell();
-
-    //calling function to change background and foreground color
-    //setBlackAndBrightWhite(); //?
-
-    
-    system("clear");
-    
-    //Changing name of the terminal window, where  033]0 --> start  and \007 --> end
-    printf("\033]0;Aldijana and Ajla's Shell\007"); 
-     
-
-
-    tokensFunction();
-
-    return 0;
-
-
-}
-
-

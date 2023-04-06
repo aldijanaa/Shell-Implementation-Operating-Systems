@@ -22,7 +22,8 @@ In a single-core, uniprocessor system that supports multiprogramming, the CPU ti
 System calls are needed because each process has it's own unique address space, and the kernel must be involved when dealing with the address space of other processes.
 When two or more processes need to communicate with each other using shared memory, they need to ask the operating system to provide a shared memory region that they can access. This is done using system calls. Threads share their address space by definition, so they don't need to make a system call to share memory.
 # Outline Of The Assignment
-A simple implementation of a shell where user can execute simple commands such as wc, grep, cmatrix.<br />
+A simple implementation of a shell with the use of tokens, where user can execute commands such as wc, grep, cmatrix.<br />
+There is also redirecting output to a file (ex. wc ajla.txt > output.txt),  as well as piping implemented. We used basic system calls such as fork(), wait(), execvp() to execute commands and create new processes.
 For additional visual creativity, we added colors to the user's name, as well as a custom figure kitten.
 # Instructions for compiling
 Save the file with extension c and then run the file like this in the terminal window: <br />

@@ -24,6 +24,7 @@ When two or more processes need to communicate with each other using shared memo
 # Outline Of The Assignment
 why??how???
 # Instructions for compiling
+Save the file with extension c and then run the file like this in the terminal window: <br />
 gcc shell.c-o shell <br/>
 ./shell <br/>
 

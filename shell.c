@@ -1,6 +1,6 @@
-///opet novi shell estagfirulahh  -- 300 ajlin original
 
-
+//Linux shell implementation by Aldijana Culezovic and Ajla Korman
+//Necessary libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,13 +11,10 @@
 #include <sys/uio.h>
 #include <fcntl.h>
 #include <time.h>
+#include <limits.h>
 #include <errno.h>
 
-#define MAX_COMMAND_LENGTH 100
-#define MAX_NUM_ARGUMENTS 10
-
-//declaration of functions
-void takePrompt();
+//function declarations
 void setColorYellow();
 void setColorRed();
 void setColorBlue();
@@ -26,143 +23,18 @@ void setColorCyan();
 void setColorBrightCyan();
 void setColorBrightMagenta();
 void resetColor();
-//void newColor();
 
-void print_random_quote();
-void my_cat();
-void table_of_content();
+//custom functions declarations
+void quote();
+void kitty();
+void content();
+void initShell();
 
-
-void my_cat() {
-  for (int i = 0; i < 120; i++) {
-        usleep(50000); // wait for 50 milliseconds
-        system("clear"); // clear the screen
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorBlue();
-        printf("         /\\_/\\    \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorYellow();
-        printf("        ( o  o )  \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorGreen();
-        printf("       /  =^=  \\ \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorBrightMagenta();
-        printf("      /   ---   \\\n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorBrightCyan();
-        printf("     (    \\/    ) \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorGreen();
-        printf("      \\_______/  \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorBlue();
-        printf("       ||    || \n");
-        for (int j = 0; j < i; j++) {
-            printf(" "); // print spaces before the cat
-        }
-        setColorRed();
-        printf("  MEET OUR CAT CICKO\n");
-  }
-  
-  printf("Meow! Here's your custom cat function.\n");
-}
-
-
-void table_of_content() {
-  printf("Table of contents:\n");
-  printf("1. WC - \n");
-  printf("2. DF- Describe free disk space\n");
-  printf("3. Cmatrix- Digital Rain\n");
-  printf("4. Grep - \n");
-
-}
-
-//Task 1.4 Adding color to the shell and text.
-//For changing the text color/style of text we used ANSI escape sequence.
-void setColorYellow() {
-    printf("\033[0;33m");
-}
-void setColorRed() {
-    printf("\033[0;31m");
-}
-void setColorBlue() {
-    printf("\033[0;34m");
-}
-void setColorGreen() {
-    printf("\033[0;32m");
-}
-void setColorCyan(){
-    printf("\033[0;36m");
-}
-void setColorBrightCyan(){
-    printf("\033[0;96m");
-}
-void setColorBrightMagenta(){
-    printf("\033[0;95m");
-}
-//Reset to the default colors of the shell
-void resetColor() {
-    printf("\033[0m");
-}
-
-//Another way to set color of text
-/*void newColor() {
-    printf("\x1B[44m"); // Set background color of the text to blue
-    printf("Hello, from Aldijana and Ajla!\n");
-    printf("\x1B[0m"); // Reset to default color
-
-}*/
-
-//Task 1.1 Advanced: Displays user prompt
-void takePrompt(){
-    char * username;
-    char hostname[HOST_NAME_MAX + 1];// Sets the limit (usually to 255)
-
-    //gets current username (built-in function)
-    username = getlogin();
-
-    //gets current hostname (built-in function)
-    gethostname(hostname, HOST_NAME_MAX + 1);
-
-    //current working directory is stored in variable cwd
-    char cwd[PATH_MAX];
-
-    //Calling functions to set color to the shell
-    setColorBlue();
-    printf("%s", hostname);
-
-    setColorRed();
-    printf("@");
-
-    setColorBrightCyan();
-    printf("%s", username);
-
-    setColorBrightMagenta();
-    printf(":~$ ");
-
-    //resetColor();
-
-    //Task 1.1 Basic user prompt
-    //printf("prompt:~$ ");
-    //This part is commented, because you can't at the same time use two prompts.
-    //We have decided to use the advanced prompt through out the shell.
-    //If you want to use the basic prompt, then you should uncomment this part, and comment advanced prompt part
-}
+//constants definitions
+#define MAX_COMMAND_LENGTH 256
+#define MAX_NUM_ARGUMENTS 32
+#define HOST_NAME_MAX 256
+#define PATH_MAX 256
 
 
 
@@ -171,20 +43,56 @@ int main() {
   char *arguments[MAX_NUM_ARGUMENTS];
   char input[MAX_COMMAND_LENGTH];
   int status;
+  
+  //Here, host name is stored
+  char hostName[100]; 
+  
+  //Here, login name is stored and called
+  char *login = getlogin(); 
+  gethostname(hostName, 100); //Here, the host name of the machine is received
 
-  //Changing name of the terminal window, where  033]0 --> start  and \007 --> end
-  printf("\033]0;Aldijana and Ajla's shell\007");
+  //changing name of the terminal where 033] means start and \007 means end
+  printf("\033]0;Aldijana and Ajla's BOSShell\007");
 
-  while (1) {
-    takePrompt();
-    fgets(input, MAX_COMMAND_LENGTH, stdin);
-    input[strlen(input) - 1] = '\0';  // Remove newline character
+ //introduction to our shell when you just compile and run it
+   initShell();
 
-    // Tokenize the command string by spaces
+
+    while (1) {
+
+/*Task 1.1 Basic prompt:
+    setColorRed();
+    printf("prompt~$: ");
+    resetColor();
+    Since we can't use two different prompts at the same time, we chose to use advanced prompt
+    but if you would like to choose the basic prompt, just comment the advanced prompt.*/
+
+//Task 1.1 Advanced: Prompt that contains machinename and username of device
+    setColorBrightMagenta();
+    printf("%s", hostName);
+    setColorRed();
+    printf("@");
+    setColorBrightCyan();
+    printf("%s", login);
+    setColorGreen();
+    printf("~$: ");
+ 
+    fgets(input, sizeof(input), stdin);
+
+    input[strlen(input) - 1] = '\0';
+        // Remove newline character
+       
+    if(strcmp(input, "") == 0) {
+      continue;
+    }
+
+    // Tokenize(split) the command string by spaces
     char *token = strtok(input, " ");
     int i = 0;
     char *out_file = NULL;
-    int pipefd[2];
+    int pipefd[2] = {0, 0};
+    int pipe_exists = 0;
+    
 
     while (token != NULL && i < MAX_NUM_ARGUMENTS) {
       if (strcmp(token, ">") == 0) {
@@ -199,28 +107,33 @@ int main() {
           break;
         }
       }
-else if (strcmp(token, "|") == 0) {
-    token = strtok(NULL, " ");
-    pipe(pipefd);
-    pid_t pid = fork();
-    if (pid == 0) {  // Child process
-      dup2(pipefd[1], STDOUT_FILENO);
-      close(pipefd[0]);
-      close(pipefd[1]);
-      execvp(command[0], command);
-      perror("execvp");  // This line only executes if execvp fails
-      exit(1);
-    } else if (pid > 0) {  // Parent process
-      dup2(pipefd[0], STDIN_FILENO);
-      close(pipefd[0]);
-      close(pipefd[1]);
-      command[0] = token;
-      continue;
-    } else {  // Error forking
-      perror("fork");
-      exit(1);
-    }
-  }
+
+//We tried to implement piping, however for some reason whenever we would run, we would be left with an infinitive loop of user prompts
+/*else if (strcmp(token, "|") == 0) {
+        pipe_exists = 1;
+        token = strtok(NULL, " ");
+        command[i] = NULL;
+        pid_t pid = fork();
+        if (pid == 0) { // Child process
+          close(pipefd[0]); // close unused read end
+          dup2(pipefd[1], STDOUT_FILENO); // redirect stdout to the write end of the pipe
+          close(pipefd[1]); // close the write end of the pipe
+          execvp(command[0], command);
+          perror("execvp"); // This line only executes if execvp fails
+          exit(1);
+        } else if (pid > 0) { // Parent process
+          close(pipefd[1]); // close the write end of the pipe
+          dup2(pipefd[0], STDIN_FILENO); // redirect stdin to the read end of the pipe
+          close(pipefd[0]); // close the read end of the pipe
+          command[0] = token;
+          i = 0; // reset the argument count for the next command
+          continue;
+        } else { // Error forking
+          perror("fork");
+          exit(1);
+        }
+      }*/
+
 
       arguments[i] = token;
       token = strtok(NULL, " ");
@@ -230,12 +143,13 @@ else if (strcmp(token, "|") == 0) {
 
     // Check for the "exit" command
     if (strcmp(arguments[0], "exit") == 0) {
-printf("You exited the shell! Goodbye.");
+        printf("You exited the shell! Goodbye.");
       break;
     }
 
     // Check for the "man" command
     if (strcmp(arguments[0], "man") == 0) {
+
       // Open the manual page for the specified command
       char manual_page[100];
       sprintf(manual_page, "man %s", arguments[1]);
@@ -244,12 +158,12 @@ printf("You exited the shell! Goodbye.");
     }
 
     // Check for supported commands and execute them
-    if (strcmp(arguments[0], "cat") == 0) {
-      my_cat();
+    if (strcmp(arguments[0], "kitty") == 0) {
+      kitty();
     } else if (strcmp(arguments[0], "content") == 0) {
-      table_of_content();
+      content();
     }  else if (strcmp(arguments[0], "quote") == 0) {
-      print_random_quote();
+      quote();
 } else {
       pid_t pid = fork();
       if (pid == 0) {  // Child process
@@ -283,7 +197,102 @@ printf("You exited the shell! Goodbye.");
   return 0;
 }
 
-void print_random_quote() {
+//Task 1.2 Intermediate: IMplement something that doesn't exist i the shell
+//We implemented an introductory paragraph to  our shell
+void initShell()
+{
+    system("clear"); //clean the terminal/console window
+
+ 
+    setColorCyan();
+
+    printf("\n\t================================================\n");
+
+    printf("\n\n\n\t****Welcome to BO$Shell!****");
+    printf("\n\n\n\t****It is a Linux based shell created and implemented by****");
+    printf("\n\n\n\t****two young female students Aldijana and Ajla.****");
+    printf("\n\n\n\t****They aspire one day to have their own companies****");
+    printf("\n\n\n\t****And be their own BO$Shell.****\n");
+
+    printf("\n\t================================================\n");
+   
+   
+    //pause the execution of the program for 5 seconds before resuming
+    sleep(5);
+    system("clear");
+}
+
+//Task 1.2 Intermediate: Implement something that doesn't exist in the shell
+//Colorful kitty that moves across the screen and increases its size
+void kitty() {
+  for (int i = 0; i < 120; i++) {
+        usleep(50000); // wait for 50 milliseconds
+        system("clear"); // clear the screen
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBlue();
+        printf("         /\\/\\    \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorYellow();
+        printf("        ( o  o )  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorGreen();
+        printf("       /  =^=  \\ \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBrightMagenta();
+        printf("      /   ---   \\\n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBrightCyan();
+        printf("     (    \\/    ) \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorGreen();
+        printf("      \\______/  \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorBlue();
+        printf("       ||    || \n");
+        for (int j = 0; j < i; j++) {
+            printf(" "); // print spaces before the cat
+        }
+        setColorRed();
+        printf("  MEET OUR CAT CICKO\n");
+        printf("         Meow!\n");
+
+}
+}
+
+//Task 1.2 Intermediate: Implement something that doesn't exist in the shell
+//This functions shows you the functions whose implementation we will shown on Demo Day
+void content() {
+  setColorYellow();
+  printf("Table of contents:\n");
+  setColorCyan();
+  printf("1. WC- Word count\n");
+  setColorRed();
+  printf("2. DF- Free disk space\n");
+  setColorCyan();
+  printf("3. Cmatrix- Digital Rain\n");
+  setColorYellow();
+  printf("4. Grep - Pattern finder\n");
+  resetColor();
+
+}
+
+//Task 1.2 Intermediate: Implement something that doesn't exist in the shell
+//This function displays you a random quote in a random color
+void quote() {
     // List of quotes
     char *quotes[] = {
         "The greatest glory in living lies not in never falling, but in rising every time we fall. -Nelson Mandela",
@@ -294,6 +303,7 @@ void print_random_quote() {
         "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success. -James Cameron",
         "Life is what happens when you're busy making other plans. -John Lennon",
         "Spread love everywhere you go. Let no one ever come to you without leaving happier. -Mother Teresa"
+        "If you can see it in your head, you can hold it in your hand. -Walt Disney"
     };
 
     // List of colors
@@ -318,3 +328,33 @@ void print_random_quote() {
     // Print the quote in the chosen color
     printf("%s%s\033[0m\n", colors[color_index], quotes[quote_index]);
 }
+
+
+//Task 1.4 Adding color to the shell and text.
+//For changing the text color/style of text we used ANSI escape sequence.
+void setColorYellow() {
+    printf("\033[0;33m");
+}
+void setColorRed() {
+    printf("\033[0;31m");
+}
+void setColorBlue() {
+    printf("\033[0;34m");
+}
+void setColorGreen() {
+    printf("\033[0;32m");
+}
+void setColorCyan(){
+    printf("\033[0;36m");
+}
+void setColorBrightCyan(){
+    printf("\033[0;96m");
+}
+void setColorBrightMagenta(){
+    printf("\033[0;95m");
+}
+//Reset to the default colors of the shell
+void resetColor() {
+    printf("\033[0m");
+}
+

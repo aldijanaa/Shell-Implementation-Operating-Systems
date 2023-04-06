@@ -30,6 +30,11 @@ shell.c has implementation of following commands:
 wc, grep, df, cmatrix, kitten, quote,
 shell.c has implementation of following system calls:
 fork, wait, execle, execvp, forkbomb
+#
+# Project was built with
+- Visual Studio Code and nano editor in Ubuntu
+- Written in C Language
+- Tested through Ubuntu, in terminal window
 # Instructions for compiling
 Save the file with extension c and then run the file like this in the terminal window: <br />
 gcc shell.c-o shell <br/>

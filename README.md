@@ -26,8 +26,16 @@ A simple implementation of a shell with the use of tokens, where user can execut
 There is also redirecting output to a file (ex. wc ajla.txt > output.txt),  as well as piping implemented. We used basic system calls such as fork(), wait(), execvp() to execute commands and create new processes.
 For additional visual creativity, we added colors to the user's name, as well as a custom figure kitten.
 # 
-shell.c has implementation of following commands: 
-wc, grep, df, cmatrix, kitten, quote,
+Shell.c has implementation of following commands: 
+-wc --> run like this: wc fileName -option(l,w,c...)
+-grep --> run like this: grep -option(c,i,f...) pattern fileName.txt
+-cmatrix --> run like this: cmatrix -options(a,b - bold, o; to exit from cmatrix press q)
+-df --> run like this: df (tells about disk storage)
+-kitten --> run like this: kitty
+-quote --> run like this: quote (will display random quote in random color)
+
+
+
 shell.c has implementation of following system calls:
 fork, wait, execle, execvp, forkbomb
 #

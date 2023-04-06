@@ -33,6 +33,7 @@ Shell.c has implementation of following commands: <br />
 -df --> run like this: df (tells about disk storage) <br />
 -kitten --> run like this: kitty <br />
 -quote --> run like this: quote (will display random quote in random color) <br />
+-exit <br />
 
 
 

@@ -44,6 +44,7 @@ gcc shell.c-o shell <br/>
 Hard to grasp and understand advanced aspects of C Programming Language. <br/>
 Difficulty to find needed material to create the code for the project. <br/>
 Lack of understandment in some aspects. <br/>
+Difficulty to understand at the beginning what we are supposed to create exactly. <br/>
 # Resources
 https://www.geeksforgeeks.org/making-linux-shell-c/
 https://github.com/TunsAdrian/Linux-Terminal/blob/master/Source%20code/shell.c

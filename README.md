@@ -4,7 +4,10 @@ Aldijana Čulezović <br />
 Ajla Korman
 
 # Files
-shell.c 
+shell.c
+clone.c
+forkwait.c
+forkbomb.c
 
 
 # Answers from Task 1.5

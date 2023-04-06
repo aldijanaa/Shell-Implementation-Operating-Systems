@@ -1,5 +1,5 @@
 
-//Task 1.3.2.2. --> Intermediate: clone
+//Task 1.3.2.2. --> Intermediate: clone()
 //creates a new ("child") process, in a manner similar to fork. However, the difference is clone() function is used to run a particular function in a separate thread other than the calling //process. 
 //Unlike fork() function where rest of the code after fork() function call will execute both parent and child processes. 
 //But with clone() , a particular function will be executed in //separate thread.

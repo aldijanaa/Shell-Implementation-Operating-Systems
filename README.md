@@ -25,6 +25,11 @@ When two or more processes need to communicate with each other using shared memo
 A simple implementation of a shell with the use of tokens, where user can execute commands such as wc, grep, cmatrix.<br />
 There is also redirecting output to a file (ex. wc ajla.txt > output.txt),  as well as piping implemented. We used basic system calls such as fork(), wait(), execvp() to execute commands and create new processes.
 For additional visual creativity, we added colors to the user's name, as well as a custom figure kitten.
+
+shell.c has implementation of following commands: 
+*wc, grep, df, cmatrix, kitten, quote,
+shell.c has implementation of following system calls:
+fork, wait, execle, execvp, forkbomb
 # Instructions for compiling
 Save the file with extension c and then run the file like this in the terminal window: <br />
 gcc shell.c-o shell <br/>

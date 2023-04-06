@@ -1,6 +1,8 @@
 
 //Task 1.3.2.2. --> Intermediate: clone
-//creates a new ("child") process, in a manner similar to fork. However, the difference is clone() function is used to run a particular function in a separate thread other than the calling //process. Unlike fork() function where rest of the code after fork() function call will execute both parent and child processes. But with clone() , a particular function will be executed in //separate thread.
+//creates a new ("child") process, in a manner similar to fork. However, the difference is clone() function is used to run a particular function in a separate thread other than the calling //process. 
+//Unlike fork() function where rest of the code after fork() function call will execute both parent and child processes. 
+//But with clone() , a particular function will be executed in //separate thread.
 //To compile, type gcc -o fileName fileName.c -Wall
 //To run, type ./fileName
 //When CLONE_VM is set, the calling process and the child process run in the same memory space.

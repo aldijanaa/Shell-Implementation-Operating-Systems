@@ -28,6 +28,13 @@ This is a simple implementation of a shell with the use of tokens, where users c
 
 # 
 Shell.c has implementation of following commands: <br />
+  -wc with options(flags)
+  * l - count lines
+  * w - count words
+  * c - count characters
+  * b - count byte
+  
+  
 -wc -->  wc fileName -option(l,w,c...) <br />
 -grep -->  grep -option(c,i,f...) pattern fileName.txt <br />
 -cmatrix --> cmatrix -options(a,b - bold, o; to exit from cmatrix press q) <br />

@@ -34,7 +34,7 @@ Shell.c has implementation of following commands: <br />
   * c - count characters
   * b - count byte
   
-  -cmatrix with flags
+  - cmatrix with flags
   * r - rainbow mode
   * s - space mode
   * B - bold letters mode
@@ -47,9 +47,7 @@ Shell.c has implementation of following commands: <br />
   
   - Custom commands: quote, kitty
   
-#
-Shell.c has implementation of following system calls: <br/>
-fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
+Shell.c has implementation of following system calls: <br/> fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 
 #
 # Project was built with

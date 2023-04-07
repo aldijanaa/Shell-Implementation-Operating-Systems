@@ -49,8 +49,8 @@ fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 git clone https://github.com/aldijanaa/Shell-Implementation-Operating-Systems.git
 # Instructions for compiling
 Save the file with extension c and then run the file like this in the terminal window: <br />
-```gcc shell.c-o shell``` <br/>
-./shell <br/>
+``` gcc -o shell shell.c - Wall (contains more flags) OR gcc shell.c-o shell``` <br/>
+```./shell ``` <br/>
 
 # Challenges
 Hard to grasp and understand advanced aspects of C Programming Language. <br/>

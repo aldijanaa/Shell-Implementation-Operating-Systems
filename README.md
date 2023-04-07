@@ -44,7 +44,7 @@ Shell.c has implementation of following commands: <br />
   - man
   - Redirecting output to a file
   
-  - Custom commands: quote, kitty
+  - Custom commands: quote, kitty, content
   
 Shell.c has implementation of following system calls: fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 

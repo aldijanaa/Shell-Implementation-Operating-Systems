@@ -19,10 +19,9 @@ In a single-core, uniprocessor system that supports multiprogramming, the CPU ti
 #
 ### Question 2: Explain why system calls are needed for a shared memory method of inter-process communication (IPC). If there are multiple threads in one process, are the system calls needed for sharing memory between those threads?
 #
-System calls are needed because each process has it's own unique address space, and the kernel must be involved when dealing with the address space of other processes.
-When two or more processes need to communicate with each other using shared memory, they need to ask the operating system to provide a shared memory region that they can access. This is done using system calls. Threads share their address space by definition, so they don't need to make a system call to share memory.
-# Outline Of The Assignment
-This is a simple implementation of a shell with the use of tokens, where users can enter the command name, flags, file names and even more in a single line and execute that command. <br /> User can choose between the two types of the user prompt (advanced or basic), which come with appropriate colors. We have also implemented redirection, so everytime symbol " > " is used between a command and another file (ex. wc ajla.txt > output.txt),  the output of the first command will be saved in the given file. Besides redirecting, we put great effort into implementing piping. <br />If the user isn't sure, what does the certain command stnad for, can't think of the proper flag they're looking for, they can always type in terminal "man <commandName>", and this will take them to manual page where user can read everything regrading that command.<br /> We added couple of our own unique functions such as initShell(introduction to our shell), quote(displays random quote in a random color), kitty (a colorful kitty animation that moves across the screen and increases its size) and content(displays some of the commands and their colorful definitions).<br /> We have also written system calls such as fork(), wait(), exec(), execle(), clone() and forkbomb() which can be executed and new processes can be created. But be careful, when it comes to execution of forkbomb - it is a type of Ddos attack.
+Shared memory is a popular method for inter-process communication (IPC) in modern operating systems. It allows multiple processes to access the same physical memory location simultaneously, which can greatly improve performance and reduce the overhead of message passing or other IPC methods.
+However, when multiple processes access the same shared memory region, proper synchronization is crucial to prevent data corruption, race conditions, and other synchronization issues. System calls are essential for shared memory IPC because they provide a way for processes to coordinate and synchronize their access to shared memory regions.
+In most modern operating systems, system calls such as shmget(), shmat(), and shmdt() are used to manage shared memory regions. These system calls provide a way for processes to create shared memory regions, attach to them, detach from them, and perform other operations related to shared memory IPC. However, because multiple processes can access the same memory addresses within the shared memory region, proper synchronization mechanisms must be used to prevent synchronization issues. Techniques such as mutexes, semaphores, and atomic operations can be used to coordinate access to shared memory between processes. When multiple threads exist in one process, they all share the same memory space, so system calls are generally not needed for sharing memory between those threads. In other words, threads within a process can share memory simply by accessing the same memory addresses. However, just like with inter-process communication, proper synchronization mechanisms must still be used to prevent race conditions and other synchronization issues. Techniques such as mutexes, semaphores, and atomic operations can be used to coordinate access to shared memory between threads within a process.
 
 
 
@@ -47,7 +46,7 @@ Shell.c has implementation of following commands: <br />
   
   - Custom commands: quote, kitty
   
-Shell.c has implementation of following system calls: <br/> fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
+Shell.c has implementation of following system calls: fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 
 #
 # Project was built with

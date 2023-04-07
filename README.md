@@ -6,7 +6,7 @@ Ajla Korman
 # Files
 shell.c <br />
 clone.c <br />
-forkwait.c <br />
+forkwaitexec.c <br />
 forkbomb.c <br />
 execle.c <br />
 
@@ -28,7 +28,7 @@ In most modern operating systems, system calls such as shmget(), shmat(), and sh
 # Outline of the Project
 For the first part of our project from the course "Operating System" we implemented a Linux Shell using tokens (especially execvp()). Now, users can enter the command name, flags, file names and even more in a single line and execute that command. User can choose between the two types of the user prompt (advanced or basic), which come with appropriate colors. We have also implemented redirection, so everytime symbol " > " is used between a command and another file (ex. wc ajla.txt > output.txt),  the output of the first command will be saved in the given file. Besides redirecting, we put great effort into implementing piping. If the user isn't sure, what does the certain command stnad for, can't think of the proper flag they're looking for, they can always type in terminal "man <commandName>", and this will take them to manual page where user can read everything regrading that command. We added couple of our own unique functions such as initShell(introduction to our shell), quote(displays random quote in a random color), kitty (a colorful kitty animation that moves across the screen and increases its size) and content(displays some of the commands and their colorful definitions). We have also written system calls such as fork(), wait(), exec(), execle(), clone() and forkbomb() which can be executed and new processes can be created. But be careful, when it comes to execution of forkbomb - it is a type of Ddos attack.
 
-Shell.c has implementation of following commands: <br />
+Shell.c has implementation of following commands and much: <br />
   - wc with options(flags)
   * l - count lines
   * w - count words
@@ -41,12 +41,19 @@ Shell.c has implementation of following commands: <br />
   * B - bold letters mode
   
   - grep
+  * c - lines that match the pattern
+  * h - matched lines
+  * l -list of file names
+  
   - df
+  * a - all system files
+  * h - human readable form
+  
   - exit
-  - man
+  - man commandName
   - Redirecting output to a file
   
-  - Custom commands: quote, kitty, content
+  - Custom implemented commands: quote, kitty, content
   
 Shell.c has implementation of following system calls: fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 
@@ -70,7 +77,7 @@ Hard to grasp and understand advanced aspects of C Programming Language. <br/>
 Lack of understanding what was asked from us to implement exactly, so the first time we implemented the whole shell from scratch by writing our own code for wc, grep, cmatrix, df and others. <br/>
 Difficulty to understand and implement concept of piping, we put a great effort into trying to resolve a problem. We tried several of different approaches, however none of those gave us the needed, correct solution. <br/>
 
-# Explanation for the code that doesn't work
+# Implementation issues
 We experienced problems with the implementation of piping using " | ". Piping represents using output of one process as an input of the second process. So the logic, which we were following is that we wanted to create two or more child processes and then connect them through pipes. So the code that we wrote piping can be described as following:
 - First we used a flag pipe_exists to indicate that a pipe exists in the command
 - Then, the strtok function was supposed to extract the next token in the command line, which was the next command to be piped to.

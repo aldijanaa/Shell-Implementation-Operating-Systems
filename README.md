@@ -59,9 +59,9 @@ Shell.c has implementation of following system calls: fork(), wait(), execle(), 
 # Instructions to clone the repository
 git clone https://github.com/aldijanaa/Shell-Implementation-Operating-Systems.git
 # Instructions for compiling
-Save the file with extension c and then run the file like this in the terminal window: <br />
+Save the file with extension c and then compile the file like this in the terminal window: <br />
 ``` gcc -o shell shell.c - Wall (contains more flags) OR gcc shell.c-o shell``` <br/>
-
+Then run with: <br/>
 ```./shell ``` <br/>
 
 # Challenges

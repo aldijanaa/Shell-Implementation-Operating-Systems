@@ -32,7 +32,7 @@ int main() {
     int flags = CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_THREAD; 
     int ret = clone(child_func, stack + 4096, flags, NULL);
     if (ret == -1) {
-        perror("clone failed");
+        perror("Clone failed");
         exit(1);
     }
 

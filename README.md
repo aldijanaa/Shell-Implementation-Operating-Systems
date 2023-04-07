@@ -25,7 +25,9 @@ In most modern operating systems, system calls such as shmget(), shmat(), and sh
 
 
 
-# 
+# Outline of the Project
+For the first part of our project from the course "Operating System" we implemented a Linux Shell using tokens (especially execvp()). Now, users can enter the command name, flags, file names and even more in a single line and execute that command. User can choose between the two types of the user prompt (advanced or basic), which come with appropriate colors. We have also implemented redirection, so everytime symbol " > " is used between a command and another file (ex. wc ajla.txt > output.txt),  the output of the first command will be saved in the given file. Besides redirecting, we put great effort into implementing piping. If the user isn't sure, what does the certain command stnad for, can't think of the proper flag they're looking for, they can always type in terminal "man <commandName>", and this will take them to manual page where user can read everything regrading that command. We added couple of our own unique functions such as initShell(introduction to our shell), quote(displays random quote in a random color), kitty (a colorful kitty animation that moves across the screen and increases its size) and content(displays some of the commands and their colorful definitions). We have also written system calls such as fork(), wait(), exec(), execle(), clone() and forkbomb() which can be executed and new processes can be created. But be careful, when it comes to execution of forkbomb - it is a type of Ddos attack.
+
 Shell.c has implementation of following commands: <br />
   - wc with options(flags)
   * l - count lines

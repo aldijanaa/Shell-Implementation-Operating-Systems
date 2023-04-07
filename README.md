@@ -67,6 +67,17 @@ Hard to grasp and understand advanced aspects of C Programming Language. <br/>
 Lack of understanding what was asked from us to implement exactly, so the first time we implemented the whole shell from scratch by writing our own code for wc, grep, cmatrix, df and others. <br/>
 Difficulty to understand and implement concept of piping, we put a great effort into trying to resolve a problem. We tried several of different approaches, however none of those gave us the needed, correct solution. <br/>
 
+# Explanation for the code that doesn't work
+We experienced problems with the implementation of piping using " | ". Piping represents using output of one process as an input of the second process. So the logic, which we were following is that we wanted to create two or more child processes and then connect them through pipes. So the code that we wrote piping can be described as following:
+- First we used a flag pipe_exists to indicate that a pipe exists in the command
+- Then, the strtok function was supposed to extract the next token in the command line, which was the next command to be piped to.
+- Using fork, a child process would be created. If the fork returns 0, that would be the child process and the output code would be redirected  to the write end of pipe using the dup2 function, and then executed using the execvp function. If execvp fails, an error message is printed using the perror function, and the child process exits with an error code. If fork return a positive value, then this is a parent process and its input would be redirected as read end of pipe using the dup2 function. Then a "current" command will be set to be the next token which is extracted from the input command line. If the fork function returns a negative value, it means that an error occurred while forking, and an error message is printed and the process exits with an error code.
+- The problem we then had, was when we entered two processes which we wanted to be piped with one another, and infinitive amount of user prompts would appear, and we couldn't figure out why.
+
+If we had more time, we would pay more attention to the part with tokens and input, because we think that was the problem that was causing the issue. We used strtok to tokenize the input here, however we don't think that it handled spaces correctly. So, we would definitely put some kind of a delimiter there. Also, we would check, if we wrote the code for wait() correctly, because wait() should wait for all child processes to finish, and not only one. Also, since execvp() is used to handling executions, we would double check, if we used proper arguments there.
+
+
+
 # Resources
 https://www.geeksforgeeks.org/making-linux-shell-c/
 https://github.com/TunsAdrian/Linux-Terminal/blob/master/Source%20code/shell.c

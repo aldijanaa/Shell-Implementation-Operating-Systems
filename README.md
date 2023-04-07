@@ -61,6 +61,7 @@ git clone https://github.com/aldijanaa/Shell-Implementation-Operating-Systems.gi
 # Instructions for compiling
 Save the file with extension c and then compile the file like this in the terminal window: <br />
 ``` gcc -o shell shell.c - Wall (contains more flags) OR gcc shell.c-o shell``` <br/>
+
 Then run with: <br/>
 ```./shell ``` <br/>
 

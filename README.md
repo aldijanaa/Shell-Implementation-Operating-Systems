@@ -38,7 +38,7 @@ Shell.c has implementation of following commands: <br />
 
 
 # Shell.c has implementation of following system calls:
-fork, wait, execle, execvp, forkbomb
+fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 #
 # Project was built with
 - Visual Studio Code and nano editor in Ubuntu
@@ -49,16 +49,13 @@ fork, wait, execle, execvp, forkbomb
 git clone https://github.com/aldijanaa/Shell-Implementation-Operating-Systems.git
 # Instructions for compiling
 Save the file with extension c and then run the file like this in the terminal window: <br />
-gcc shell.c-o shell <br/>
+```gcc shell.c-o shell``` <br/>
 ./shell <br/>
 
 # Challenges
 Hard to grasp and understand advanced aspects of C Programming Language. <br/>
 Lack of understanding what was asked from us to implement exactly, so the first time we implemented the whole shell from scratch by writing our own code for wc, grep, cmatrix, df and others. <br/>
-Lack of understandment in some aspects. <br/>
 Difficulty to understand and implement concept of piping, we put a great effort into trying to resolve a problem. We tried several of different approaches, however none of those gave us the needed, correct solution. <br/>
-
-
 
 # Resources
 https://www.geeksforgeeks.org/making-linux-shell-c/

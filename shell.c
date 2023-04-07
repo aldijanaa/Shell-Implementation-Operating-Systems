@@ -11,7 +11,6 @@
 #include <sys/uio.h>
 #include <fcntl.h>
 #include <time.h>
-#include <limits.h>
 #include <errno.h>
 
 //function declarations
@@ -30,7 +29,7 @@ void kitty();
 void content();
 void initShell();
 
-//constants definitions
+//constants declarations
 #define MAX_COMMAND_LENGTH 256
 #define MAX_NUM_ARGUMENTS 32
 #define HOST_NAME_MAX 256
@@ -39,22 +38,20 @@ void initShell();
 
 
 int main() {
-  char *command[MAX_COMMAND_LENGTH];
+
+ // char *command[MAX_COMMAND_LENGTH]; seems to be unused command
   char *arguments[MAX_NUM_ARGUMENTS];
   char input[MAX_COMMAND_LENGTH];
-  int status;
-  
-  //Here, host name is stored
-  char hostName[100]; 
-  
-  //Here, login name is stored and called
-  char *login = getlogin(); 
-  gethostname(hostName, 100); //Here, the host name of the machine is received
+  int status; //for tracking status of the process
+
+  char hostName[100];                           //Here, host name is stored
+  char *login = getlogin();                     //Here, login name is stored and called
+  gethostname(hostName, 100);                   //Here, the host name of the machine is received
 
   //changing name of the terminal where 033] means start and \007 means end
-  printf("\033]0;Aldijana and Ajla's BOSShell\007");
+  printf("\033]0;Aldijana and Ajla's Shell\007");
 
- //introduction to our shell when you just compile and run it
+ //Displaying the introduction to the shell
    initShell();
 
 
@@ -86,14 +83,16 @@ int main() {
       continue;
     }
 
-    // Tokenize(split) the command string by spaces
+    // Tokenize the command string by spaces
     char *token = strtok(input, " ");
     int i = 0;
     char *out_file = NULL;
-    int pipefd[2] = {0, 0};
-    int pipe_exists = 0;
-    
 
+    /*int pipefd[2] = {0, 0};
+    int pipe_exists = 0;  -> part which was used for piping*/
+
+
+//Task 1.2 Advanced: Implementation of redirection using > symbol
     while (token != NULL && i < MAX_NUM_ARGUMENTS) {
       if (strcmp(token, ">") == 0) {
         token = strtok(NULL, " ");
@@ -108,8 +107,9 @@ int main() {
         }
       }
 
-//We tried to implement piping, however for some reason whenever we would run, we would be left with an infinitive loop of user prompts
-/*else if (strcmp(token, "|") == 0) {
+
+//Task 1.2 Advanced: Implementation of piping using | symbol
+    /*else if (strcmp(token, "|") == 0) {
         pipe_exists = 1;
         token = strtok(NULL, " ");
         command[i] = NULL;
@@ -134,6 +134,7 @@ int main() {
         }
       }*/
 
+//We tried to implement piping, however for some reason whenever we would run, we would be left with an infinitive loop of user prompts
 
       arguments[i] = token;
       token = strtok(NULL, " ");
@@ -141,15 +142,39 @@ int main() {
     }
     arguments[i] = NULL;  // Set the last argument to NULL for execvp
 
-    // Check for the "exit" command
+    // Check for the "exit" command --> display goodbye figure
     if (strcmp(arguments[0], "exit") == 0) {
-        printf("You exited the shell! Goodbye.");
+    setColorRed();
+    printf("\n");
+    printf("\t\t You exited the shell! Goodbye. \n");
+    printf("\n");
+            setColorCyan();
+            printf("\t                   ()   \n");
+            printf("\t                 __/\\__             \n");
+            printf("\t        |\\   .-\"`      `\"-. /|  \n");
+            printf("\t        | \\.'( ') (' ) (. )`./ |     \n");
+            printf("\t         \\_                  _/     \n");
+            printf("\t           \\  `~\"'=::='\"~`/     \n");
+            printf("\t    ,       `-.__      __.-'       ,   \n");
+          printf("\t.---'\\________( `\"\"~~\"\"` )________/'---.    \n");
+            printf("\t >   )       / `\"\"~~~~\"\"` \\       (   <   \n");
+            printf("\t'----`--..__/        -(-)- \\__..--`----'   \n");
+            printf("\t            |_____ __ _____|    \n");
+            printf("\t            [_____[##]_____]   I HAVE BEEN CHOSEN...\n");
+            printf("\t            |              |    FAREWELL MY FRIENDS...\n");
+            printf("\t            \\      ||     /     I GO ONTO A BETTER PLACE!\n");
+            printf("\t             \\     ||    /    \n");
+            printf("\t          .-\"~`--._||_.--'~\"-.  \n");
+            printf("\t         (_____,.--\"\"--.,_____)");
+            printf("\n");
+            resetColor();
       break;
     }
 
+   //If user enters exit or presses CTRL + C, will immediately be taken out of our shell
+
     // Check for the "man" command
     if (strcmp(arguments[0], "man") == 0) {
-
       // Open the manual page for the specified command
       char manual_page[100];
       sprintf(manual_page, "man %s", arguments[1]);
@@ -164,7 +189,7 @@ int main() {
       content();
     }  else if (strcmp(arguments[0], "quote") == 0) {
       quote();
-} else {
+} else {       //this is for all other commands
       pid_t pid = fork();
       if (pid == 0) {  // Child process
         if (out_file != NULL) {
@@ -197,26 +222,39 @@ int main() {
   return 0;
 }
 
-//Task 1.2 Intermediate: IMplement something that doesn't exist i the shell
-//We implemented an introductory paragraph to  our shell
+//Task 1.2 Intermediate: Implement something that doesn't exist i the shell
 void initShell()
 {
     system("clear"); //clean the terminal/console window
 
  
     setColorCyan();
+    printf("\t\t\tWELCOME to the Aldijana and Ajla's shell \n");
+    printf("\n");
 
-    printf("\n\t================================================\n");
+    setColorBlue();
+    printf("\t\t\t .--.            .--. \n");
+    setColorBlue();
+    printf("\t\t\t( (`\\.\"--``--\".//`) )\n");
+    setColorBlue();
+    printf("\t\t\t '-.   __   __    .-'  \n");
+    setColorBlue();
+    printf("\t\t\t  /   /__\\ /__\\   \\  \n");
+    printf("\t\t\t |    \\ 0/ \\ 0/    | \n");
+    setColorGreen();
+    printf("\t\t\t \\     `/   \\`     /  \n");
+    setColorGreen();
+    printf("\t\t\t  `-.  /-\"\"\"-\\  .-'  \n");
+    setColorCyan();
+    printf("\t\t\t    /  '.___.'  \\  \n");
+    setColorCyan();
+    printf("\t\t\t    \\     I     /  \n");
+    setColorCyan();
+    printf("\t\t\t     `;--'`'--;`   \n");
+    setColorCyan();
+    printf("\t\t\t        .___..'            \n");
+    
 
-    printf("\n\n\n\t****Welcome to BO$Shell!****");
-    printf("\n\n\n\t****It is a Linux based shell created and implemented by****");
-    printf("\n\n\n\t****two young female students Aldijana and Ajla.****");
-    printf("\n\n\n\t****They aspire one day to have their own companies****");
-    printf("\n\n\n\t****And be their own BO$Shell.****\n");
-
-    printf("\n\t================================================\n");
-   
-   
     //pause the execution of the program for 5 seconds before resuming
     sleep(5);
     system("clear");
@@ -267,9 +305,7 @@ void kitty() {
             printf(" "); // print spaces before the cat
         }
         setColorRed();
-        printf("  MEET OUR CAT CICKO\n");
-        printf("         Meow!\n");
-
+        printf("  MEET OUR CAT CICKO\n");  
 }
 }
 
@@ -358,3 +394,4 @@ void resetColor() {
     printf("\033[0m");
 }
 
+	

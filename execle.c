@@ -24,7 +24,7 @@ int main() {
     printf("This line won't be printed because execle() replaced the current process.Goodbye\n");
 
     // If execle() fails
-    perror("execle() failed");
+    perror("Execle() failed");
     exit(1);
     
     // Retrieve and print the value of the MY_VAR variable

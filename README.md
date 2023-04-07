@@ -22,23 +22,22 @@ In a single-core, uniprocessor system that supports multiprogramming, the CPU ti
 System calls are needed because each process has it's own unique address space, and the kernel must be involved when dealing with the address space of other processes.
 When two or more processes need to communicate with each other using shared memory, they need to ask the operating system to provide a shared memory region that they can access. This is done using system calls. Threads share their address space by definition, so they don't need to make a system call to share memory.
 # Outline Of The Assignment
-A simple implementation of a shell with the use of tokens, where user can execute commands such as wc, grep, cmatrix.<br />
-There is also redirecting output to a file (ex. wc ajla.txt > output.txt),  as well as piping implemented. We used basic system calls such as fork(), wait(), execvp() to execute commands and create new processes.
-For additional visual creativity, we added colors to the user's name, as well as a custom figure kitten.
+This is a simple implementation of a shell with the use of tokens, where users can enter the command name, flags, file names and even more in a single line and execute that command. <\br>. User can choose between the two types of the user prompt (advanced or basic), which come with appropriate colors. We have also implemented redirection, so everytime symbol " > " is used between a command and another file (ex. wc ajla.txt > output.txt),  the output of the first command will be saved in the given file. Besides redirecting, we put great effort into implementing piping. If the user isn't sure, what does the certain command stnad for, can't think of the proper flag they're looking for, they can always type in terminal "man <commandName>", and this will take them to manual page where user can read everything regrading that command. We added couple of our own unique functions such as initShell(introduction to our shell), quote(displays random quote in a random color), kitty (a colorful kitty animation that moves across the screen and increases its size) and content(displays some of the commands and their colorful definitions). We have also written system calls such as fork(), wait(), exec(), execle(), clone() and forkbomb() which can be executed and new processes can be created. But be careful, when it comes to execution of forkbomb - it is a type of Ddos attack.
+
+
+
 # 
 Shell.c has implementation of following commands: <br />
--wc --> run like this: wc fileName -option(l,w,c...) <br />
--grep --> run like this: grep -option(c,i,f...) pattern fileName.txt <br />
--cmatrix --> run like this: cmatrix -options(a,b - bold, o; to exit from cmatrix press q) <br />
--df --> run like this: df (tells about disk storage) <br />
--kitten --> run like this: kitty <br />
--quote --> run like this: quote (will display random quote in random color) <br />
+-wc -->  wc fileName -option(l,w,c...) <br />
+-grep -->  grep -option(c,i,f...) pattern fileName.txt <br />
+-cmatrix --> cmatrix -options(a,b - bold, o; to exit from cmatrix press q) <br />
+-df -->  df (tells about disk storage) <br />
+-kitten -->  kitty <br />
+-quote -->  quote (will display random quote in random color) <br />
 -exit <br />
 
+Sfork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 
-
-# Shell.c has implementation of following system calls:
-fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 #
 # Project was built with
 - Visual Studio Code and nano editor in Ubuntu

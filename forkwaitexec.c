@@ -1,10 +1,9 @@
 //Task 1.3.1. 1. & 2. --> Basic : Implementation of fork(), wait(), and exec() system calls 
-//To compile, type gcc -o fileName fileName.c -Wall  or gcc filename.c -o filename
+//To compile, we recommend you to type in gcc -o fileName fileName.c -Wall
 //To run, type ./fileName
 //fork() creates new child process
 //wait() parent process waits for child to finish its execution
-//exec() is used to replace current process image with new process image 
-
+//exec() is used to replace current process image with new process image
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,15 +26,17 @@ int main() {
     else if (child == 0)  //New child process created
     {
          //When the child process is created, ls will be executed to list contents of current directory
+        printf("Hello, I am child and this is my PID: %d\n", (int)getpid());
         char *args[] = {"ls", "-l", NULL};
-        execvp(args[0], args); //Child process is now replaced, and new command starts executing
-        printf("Hello, I am child and this is my id: %d\n", (int)getpid());
-    }
+        execvp(args[0], args); //Child process is now replaced, and new comand starts executing
+         }
+
     else
     {
-        printf("Hello, I am parent and this is my id: %d\n", (int)getpid());
+        printf("Hello, I am parent and this is my PID: %d\n", (int)getpid());
         wait(NULL); //parent waits for child to finish it's execution
-        printf("child has terminated\n");
+        printf("Now, the child process has officialy terminated.\n");
     } 
     return 0;
 }
+

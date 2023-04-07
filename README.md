@@ -29,7 +29,7 @@ This is a simple implementation of a shell with the use of tokens, where users c
 # 
 Shell.c has implementation of following commands: <br />
   - wc with options(flags)
-  * l - count lines
+  ** l - count lines
   * w - count words
   * c - count characters
   * b - count byte

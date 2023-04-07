@@ -29,21 +29,27 @@ This is a simple implementation of a shell with the use of tokens, where users c
 # 
 Shell.c has implementation of following commands: <br />
   - wc with options(flags)
-  ** l - count lines
+  * l - count lines
   * w - count words
   * c - count characters
   * b - count byte
   
+  -cmatrix with flags
+  * r - rainbow mode
+  * s - space mode
+  * B - bold letters mode
   
--wc -->  wc fileName -option(l,w,c...) <br />
--grep -->  grep -option(c,i,f...) pattern fileName.txt <br />
--cmatrix --> cmatrix -options(a,b - bold, o; to exit from cmatrix press q) <br />
--df -->  df (tells about disk storage) <br />
--kitten -->  kitty <br />
--quote -->  quote (will display random quote in random color) <br />
--exit <br />
-
-Sfork(), wait(), execle(), execvp(), forkbomb(), execvp(),
+  - grep
+  - df
+  - exit
+  - man
+  - Redirecting output to a file
+  
+  - Custom commands: quote, kitty
+  
+#
+Shell.c has implementation of following system calls: <br/>
+fork(), wait(), execle(), execvp(), forkbomb(), execvp(),
 
 #
 # Project was built with

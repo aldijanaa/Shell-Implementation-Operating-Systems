@@ -10,8 +10,9 @@
 //When CLONE_SIGHAND is set, the calling process and the child process share the same table of signal handlers.
 //If CLONE_THREAD is set, the child is placed in the same thread group as the calling process. 
 
-//To compile, type gcc -o fileName fileName.c -Wall or gcc fileName.c -o fileName
+//To compile, type gcc -o fileName fileName.c -Wall
 //To run, type ./fileName
+
 
 #define _GNU_SOURCE  //non-standard flag for additional functions and macros that are not part of standard C libary
 #include <stdio.h>

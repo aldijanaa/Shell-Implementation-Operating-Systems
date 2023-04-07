@@ -43,7 +43,8 @@ int main()
 /*Forkbomb can also be presented through this symbol :(){ :|: & };:
 
 : -> This defines a function named : (colon). The function does not take any arguments.
-(){ ... } -> This is the body of the function. It contains a command to call the function recursively, creating an infinite loop. Curly braces create a code block in which the function is performed.
+(){ ... } -> This is the body of the function. It contains a command to call the function recursively, creating an infinite loop.
+Curly braces create a code block in which the function is performed.
 :-> This calls the function, starting the infinite loop.
 |-> This is the symbol for piping, which connects the output of one command to the input of another.
 :-> This is the name of the function being piped to. The : function is called with its output as input.
